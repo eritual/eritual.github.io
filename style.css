@@ -1,15 +1,59 @@
+:root {
+  --text: #111;
+  --muted: #555;
+  --border: #e5e5e5;
+}
+
 body {
-  font-family: system-ui, -apple-system, sans-serif;
-  max-width: 680px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text);
+  background: #fff;
+  margin: 0;
+}
+
+main {
+  max-width: 720px;
   margin: 4rem auto;
-  padding: 0 1rem;
-  line-height: 1.6;
-  
+  padding: 0 1.25rem;
+  line-height: 1.65;
+}
+
+header {
+  margin-bottom: 3rem;
+}
+
 h1 {
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   margin-bottom: 0.25rem;
 }
 
-p {
-  color: #555;
+.subtitle {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+.links {
+  margin-top: 0.75rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin-top: 2.5rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.25rem;
+}
+
+ul {
+  padding-left: 1.2rem;
+}
+
+.skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.25rem 1rem;
 }
