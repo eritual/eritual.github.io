@@ -8,16 +8,17 @@
 
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(16px, 1.1vw, 18px);
   color: var(--text);
   background: var(--bg);
-  margin: 20px;
+  margin: 0;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 main {
-  max-width: 720px;
+  max-width: (960px, 90vw);
   margin: 4rem auto;
-  padding: 0 1.25rem;
+  padding: 0 1.5rem;
   line-height: 1.65;
 }
 
@@ -83,6 +84,12 @@ ul {
     --border: #2a2a2a;
     --link: #f2f2f2;
   }
+
+@media (min-width: 1024px) {
+  main {
+    margin-top: 6rem;
+  }
+}
 
   a {
     text-decoration-color: #444;
