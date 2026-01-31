@@ -110,6 +110,18 @@ ul {
     color: #000000;
     margin: 0;
   }
+  
+@media print {
+  a {
+    border-bottom: none;
+    color: black;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+}
 
   main {
     margin: 0;
