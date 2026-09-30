@@ -1,132 +1,192 @@
 :root {
   --bg: #ffffff;
-  --text: #111111;
-  --muted: #555555;
-  --border: #e5e5e5;
-  --link: #111111;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e6e6e6;
+  --link: #1a1a1a;
+  --measure: 54rem;
+  --label-col: 9.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --text: #ededed;
+    --muted: #9a9a9a;
+    --border: #2b2b2b;
+    --link: #ededed;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(16px, 1.1vw, 18px);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: clamp(16px, 1.05vw, 18px);
+  line-height: 1.65;
   color: var(--text);
   background: var(--bg);
-  margin: 0;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 4rem 1.5rem 5rem;
+  -webkit-font-smoothing: antialiased;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-main {
-  max-width: (960px, 90vw);
-  margin: 4rem auto;
-  padding: 0 1.5rem;
-  line-height: 1.65;
-}
-
+/* --- Header --- */
 header {
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
 }
 
 h1 {
-  font-size: 2.4rem;
-  margin-bottom: 0.25rem;
+  font-size: clamp(2.2rem, 3vw, 2.8rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 0.4rem;
 }
 
 .subtitle {
   color: var(--muted);
-  margin-top: 0;
+  margin: 0;
 }
 
 .links {
-  margin-top: 0.75rem;
+  margin: 1rem 0 0;
 }
 
+/* --- Links --- */
 a {
   color: var(--link);
-  text-decoration: none;
-  border-bottom: 1px solid var(--border);
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color 0.15s ease;
 }
 
 a:hover {
-  border-bottom-color: var(--text);
+  text-decoration-color: var(--text);
 }
 
+a:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* --- Sections: label on the left, content on the right (desktop) --- */
 section {
-  margin-bottom: 3rem;
+  display: grid;
+  grid-template-columns: var(--label-col) minmax(0, 1fr);
+  column-gap: 2rem;
+  padding-top: 2rem;
+  margin-bottom: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+section > * {
+  grid-column: 2;
 }
 
 h2 {
-  font-size: 1.2rem;
-  margin-top: 2.5rem;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 0.25rem;
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  line-height: 1.65;
 }
 
+section p {
+  margin: 0 0 0.75rem;
+}
+
+strong {
+  font-weight: 600;
+}
+
+/* --- Lists --- */
 ul {
-  padding-left: 1.2rem;
+  margin: 0 0 1.75rem;
+  padding-left: 1.1rem;
 }
 
-.skills {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0.25rem 1rem;
+li {
+  margin-bottom: 0.3rem;
+}
+
+li::marker {
+  color: var(--muted);
+}
+
+/* Space between successive roles */
+section ul + p {
+  margin-top: 0.5rem;
 }
 
 /* --- Metadata (dates, locations, roles) --- */
 .meta {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--muted);
 }
 
-/* --- Dark mode (system preference) --- */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #121212;       /* softer than pure black */
-    --text: #f2f2f2;
-    --muted: #a0a0a0;
-    --border: #2a2a2a;
-    --link: #f2f2f2;
+/* --- Footer line --- */
+section:last-of-type {
+  margin-bottom: 0;
+}
+
+/* --- Tablet / mobile: stack labels above content --- */
+@media (max-width: 720px) {
+  body {
+    padding: 2.5rem 1.25rem 3rem;
   }
 
+  header {
+    margin-bottom: 2.5rem;
+  }
+
+  section {
+    display: block;
+  }
+
+  h2 {
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* --- Large desktop --- */
 @media (min-width: 1024px) {
-  main {
-    margin-top: 6rem;
-  }
-}
-
-  a {
-    text-decoration-color: #444;
-  }
-
-  a:hover {
-    text-decoration-color: #888;
-  }
-}
-
-/* --- Print styles (PDF / paper) --- */
-@media print {
   body {
-    background: #ffffff;
-    color: #000000;
-    margin: 0;
+    padding-top: 6rem;
   }
-  
+}
+
+/* --- Print (PDF / paper) --- */
 @media print {
-  a {
-    border-bottom: none;
-    color: black;
+  :root {
+    --bg: #ffffff;
+    --text: #000000;
+    --muted: #444444;
+    --border: #999999;
   }
 
   body {
-    background: white;
-    color: black;
-  }
-}
-
-  main {
-    margin: 0;
-    padding: 0;
     max-width: none;
+    padding: 0;
+    font-size: 11pt;
   }
 
   a {
@@ -138,7 +198,7 @@ ul {
     display: none;
   }
 
-  h2 {
-    border-bottom: 1px solid #000;
+  section {
+    break-inside: avoid;
   }
 }
