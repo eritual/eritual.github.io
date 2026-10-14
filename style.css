@@ -10,8 +10,8 @@
   --border: #e4e4e2;
   --accent: #0f766e;
 
-  --measure: 56rem;   /* content width */
-  --label-col: 9.5rem;
+  --measure: 56rem;    /* content width */
+  --label-col: 9.5rem; /* section label column */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -35,19 +35,16 @@ html {
   background: var(--bg);
 }
 
-/* Centering that doesn't depend on auto margins:
-   the side padding grows with the viewport, so the
-   content column is always centred. */
+/* Side padding grows with the viewport, so the column stays centred */
 body {
   margin: 0;
-  padding: 5rem max(1.5rem, calc((100% - var(--measure)) / 2)) 5rem;
+  padding: 5rem max(1.5rem, calc((100% - var(--measure)) / 2));
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: clamp(16px, 1.05vw, 17.5px);
   line-height: 1.65;
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* ---------- Header ---------- */
@@ -56,21 +53,10 @@ header {
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
-}
-
-.avatar {
-  width: 9rem;
-  height: 9rem;
-  flex-shrink: 0;
-  border-radius: 50%;
-  object-fit: cover;      /* crops to a circle instead of squashing */
-  border: 1px solid var(--border);
-}
-header {
+  position: relative;
   padding-bottom: 2.5rem;
   margin-bottom: 2.5rem;
   border-bottom: 1px solid var(--border);
-  position: relative;
 }
 
 /* the single accent moment: a short bar on the header rule */
@@ -82,6 +68,15 @@ header::after {
   width: 3.5rem;
   height: 2px;
   background: var(--accent);
+}
+
+.avatar {
+  width: 9rem;
+  height: 9rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
 }
 
 h1 {
@@ -98,11 +93,20 @@ h1 {
   color: var(--muted);
 }
 
+.contact {
+  margin: 0.75rem 0 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+}
+
 .links {
   margin: 1.5rem 0 0;
 }
 
-.links a {
+.button {
   display: inline-block;
   padding: 0.45rem 1rem;
   font-size: 0.9rem;
@@ -113,7 +117,7 @@ h1 {
   transition: border-color 0.15s ease, color 0.15s ease;
 }
 
-.links a:hover {
+.button:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
@@ -143,7 +147,7 @@ section {
   display: grid;
   grid-template-columns: var(--label-col) minmax(0, 1fr);
   column-gap: 2.5rem;
-  padding: 0 0 2.75rem;
+  padding-bottom: 2.75rem;
 }
 
 section > * {
@@ -152,14 +156,13 @@ section > * {
 
 h2 {
   grid-column: 1;
-  grid-row: 1;
+  grid-row: 1 / span 20;
   margin: 0;
-  padding: 0.15rem 0 0;
+  padding-top: 0.15rem;
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.01em;
   color: var(--accent);
-  border: 0;
 }
 
 section p {
@@ -170,18 +173,26 @@ strong {
   font-weight: 600;
 }
 
-/* ---------- Role rows: title left, dates right ---------- */
-section p:has(> .meta) {
+/* ---------- Entries: title left, dates right ---------- */
+.entry {
+  margin-bottom: 1.75rem;
+}
+
+.entry:last-child {
+  margin-bottom: 0;
+}
+
+.role {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: baseline;
   column-gap: 1.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
-section p:has(> .meta) br {
-  display: none;
+.detail {
+  color: var(--muted);
 }
 
 .meta {
@@ -193,12 +204,8 @@ section p:has(> .meta) br {
 
 /* ---------- Lists ---------- */
 ul {
-  margin: 0 0 2rem;
+  margin: 0;
   padding-left: 1.1rem;
-}
-
-ul:last-child {
-  margin-bottom: 0;
 }
 
 li {
@@ -210,17 +217,40 @@ li::marker {
   color: var(--accent);
 }
 
-/* ---------- Footer line ---------- */
-section:last-of-type {
-  padding-bottom: 0;
+/* ---------- Skills ---------- */
+.skills {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.5rem 1.5rem;
+  margin: 0;
 }
 
-section:last-of-type .meta {
+.skills dt {
+  font-weight: 600;
+}
+
+.skills dd {
+  margin: 0;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+footer .meta {
+  margin: 0;
   white-space: normal;
 }
 
 /* ---------- Tablet / mobile ---------- */
 @media (max-width: 720px) {
+  body {
+    padding-top: 2.5rem;
+    padding-bottom: 3rem;
+  }
+
   header {
     flex-direction: column-reverse;
     align-items: flex-start;
@@ -231,18 +261,31 @@ section:last-of-type .meta {
     width: 6rem;
     height: 6rem;
   }
-  body {
-    padding-top: 2.5rem;
-    padding-bottom: 3rem;
+
+  .contact {
+    flex-direction: column;
+  }
+
+  .contact [aria-hidden] {
+    display: none;
   }
 
   section {
     display: block;
-    padding-bottom: 2rem;
+    padding-bottom: 2.25rem;
   }
 
   h2 {
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .skills {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .skills dd {
+    margin-bottom: 0.75rem;
   }
 }
 
@@ -261,186 +304,30 @@ section:last-of-type .meta {
   }
 }
 
-/* ---------- Print ---------- */
+/* ---------- Print (save page as PDF) ---------- */
 @media print {
   :root {
     --bg: #fff;
     --text: #000;
     --muted: #444;
-    --border: #999;
+    --border: #bbb;
     --accent: #000;
   }
 
   body {
     padding: 0;
-    font-size: 11pt;
-  }
-
-  a {
-    text-decoration: none;
-    color: #000;
-  }
-
-  .links {
-    display: none;
-  }
-
-  section {
-    break-inside: avoid;
-  }
-}  max-width: var(--measure);
-  margin: 0 auto;
-  padding: 4rem 1.5rem 5rem;
-  -webkit-font-smoothing: antialiased;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-/* --- Header --- */
-header {
-  margin-bottom: 4rem;
-}
-
-h1 {
-  font-size: clamp(2.2rem, 3vw, 2.8rem);
-  font-weight: 650;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  margin: 0 0 0.4rem;
-}
-
-.subtitle {
-  color: var(--muted);
-  margin: 0;
-}
-
-.links {
-  margin: 1rem 0 0;
-}
-
-/* --- Links --- */
-a {
-  color: var(--link);
-  text-decoration: underline;
-  text-decoration-color: var(--border);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.25em;
-  transition: text-decoration-color 0.15s ease;
-}
-
-a:hover {
-  text-decoration-color: var(--text);
-}
-
-a:focus-visible {
-  outline: 2px solid var(--text);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
-
-/* --- Sections: label on the left, content on the right (desktop) --- */
-section {
-  display: grid;
-  grid-template-columns: var(--label-col) minmax(0, 1fr);
-  column-gap: 2rem;
-  padding-top: 2rem;
-  margin-bottom: 2rem;
-  border-top: 1px solid var(--border);
-}
-
-section > * {
-  grid-column: 2;
-}
-
-h2 {
-  grid-column: 1;
-  grid-row: 1;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--muted);
-  margin: 0;
-  padding: 0;
-  border: 0;
-  line-height: 1.65;
-}
-
-section p {
-  margin: 0 0 0.75rem;
-}
-
-strong {
-  font-weight: 600;
-}
-
-/* --- Lists --- */
-ul {
-  margin: 0 0 1.75rem;
-  padding-left: 1.1rem;
-}
-
-li {
-  margin-bottom: 0.3rem;
-}
-
-li::marker {
-  color: var(--muted);
-}
-
-/* Space between successive roles */
-section ul + p {
-  margin-top: 0.5rem;
-}
-
-/* --- Metadata (dates, locations, roles) --- */
-.meta {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-/* --- Footer line --- */
-section:last-of-type {
-  margin-bottom: 0;
-}
-
-/* --- Tablet / mobile: stack labels above content --- */
-@media (max-width: 720px) {
-  body {
-    padding: 2.5rem 1.25rem 3rem;
+    font-size: 10.5pt;
+    line-height: 1.45;
   }
 
   header {
-    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
   }
 
-  section {
-    display: block;
-  }
-
-  h2 {
-    margin-bottom: 0.75rem;
-  }
-}
-
-/* --- Large desktop --- */
-@media (min-width: 1024px) {
-  body {
-    padding-top: 6rem;
-  }
-}
-
-/* --- Print (PDF / paper) --- */
-@media print {
-  :root {
-    --bg: #ffffff;
-    --text: #000000;
-    --muted: #444444;
-    --border: #999999;
-  }
-
-  body {
-    max-width: none;
-    padding: 0;
-    font-size: 11pt;
+  .avatar {
+    width: 5rem;
+    height: 5rem;
   }
 
   a {
@@ -453,6 +340,11 @@ section:last-of-type {
   }
 
   section {
+    padding-bottom: 1.25rem;
+  }
+
+  .entry {
     break-inside: avoid;
+    margin-bottom: 0.9rem;
   }
 }
